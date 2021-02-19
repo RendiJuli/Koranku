@@ -1,6 +1,7 @@
 package com.example.koranku;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,14 +46,29 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Articles a = articles.get(position);
+        final Articles a = articles.get(position);
         holder.tvTitle.setText(a.getTitle());
         holder.tvSource.setText(a.getSource().getName());
         holder.tvDate.setText(a.getPublishedAt());
 
         String imageUrl = a.getUrlToImage();
+        String url = a.getUrl();
 
         Picasso.with(context).load(imageUrl).into(holder.imageView);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, Detail.class);
+                i.putExtra("title", a.getTitle());
+                i.putExtra("source", a.getSource().getName());
+                i.putExtra("time",dateTime(a.getPublishedAt()));
+                i.putExtra("desc", a.getDescription());
+                i.putExtra("imageUrl", a.getUrlToImage());
+                i.putExtra("url", a.getUrl());
+                context.startActivity(i);
+            }
+        });
 
 
     }

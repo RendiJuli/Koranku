@@ -15,6 +15,11 @@ public interface ApiInterfaces {
 
     );
 
+    @GET ("everything")
+    Call<News> getSpesificData(
+            @Query("q") String query,
+            @Query("apikey") String apikey
+    );
 
 
 }
